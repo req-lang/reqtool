@@ -9,9 +9,7 @@ author = "Sami Dahoux <sami@bendou.space>"
 copyright = "© 2025. All rights reserved. Sami Dahoux"
 
 [dependencies]
-nlp = { path = "../nlp" }
 colored = "3.0.0"
-getopts = "0.2.23"
 itertools = "0.14.0"
 markdown = "1.0.0"
 pest = "2.7.9"
@@ -23,6 +21,7 @@ deunicode = "1.6.2"
 schemars = "1.0.4"
 ts-rs = { version = "12.0.1", optional = true }
 thiserror = "2.0.17"
+clap = { version = "4.5.60", features = ["derive"] }
 
 [features]
 ts = ["ts-rs"]
@@ -39,12 +38,8 @@ name = "parsing"
 harness = false
 
 [[bin]]
-name = "verify"
-path = "src/bin/verify.rs"
-
-[[bin]]
-name = "lint"
-path = "src/bin/lint.rs"
+name = "reqtool"
+path = "src/bin/reqtool.rs"
 
 [lib]
 name = "reqtool"
