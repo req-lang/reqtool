@@ -5,7 +5,7 @@ use colored::Colorize;
 use crate::{
     Analysis,
     children::{Children, ChildrenIter},
-    diagnostic,
+    diagnostic::{self, DiagnosticSeverity},
     syntax::{self},
     verifier::{reference::is_builtin, typing::TypeKind},
     visitor::{Visitor, Walk, WalkCustom},
@@ -17,6 +17,18 @@ pub struct Renderer<'a> {
     indentation: usize,
     analysis: &'a Analysis,
     pub result: String,
+}
+
+impl DiagnosticSeverity {
+    pub fn colored(&self, err: &str) -> colored::ColoredString {
+        use diagnostic::DiagnosticSeverity::*;
+        match self {
+            Critical => err.red(),
+            Severe => err.yellow(),
+            Moderate => err.yellow(),
+            Light => err.white(),
+        }
+    }
 }
 
 impl Walk<&syntax::entity::Entity> for Renderer<'_> {
@@ -69,16 +81,8 @@ impl Visitor<&syntax::entity::Entity> for Renderer<'_> {
             let title = "*** errors ***".white().bold();
             self.push_line(title.to_string());
             for err in errors {
-                use diagnostic::DiagnosticSeverity::*;
-
                 let line = format!("- {}", err).bold();
-                let colored = match err.severity {
-                    Critical => line.white().on_white(),
-                    Severe => line.red(),
-                    Moderate => line.yellow(),
-                    Light => line.white(),
-                };
-
+                let colored = err.severity.colored(&line);
                 self.push_line(colored.to_string());
             }
         }

@@ -72,7 +72,15 @@ fn main() {
             let root = parser.parse(&source[..]).expect("Failed to parse input");
             let context = parser.context;
 
-            print_syntax_errors(&parser.errors);
+            for error in &parser.errors {
+                let span = format!("{}", error.span.start).bold().white();
+                let err = format!("{}", error.kind).red().bold();
+                eprintln!("{:4}{:12}", span, err);
+            }
+
+            if !parser.errors.is_empty() {
+                eprintln!("{} syntax error(s)", parser.errors.len())
+            }
 
             let mut analysis = Analysis::from(&root);
             if propagate {
@@ -85,56 +93,23 @@ fn main() {
             }
 
             if !tree {
-                print_diagnostics(&context, &analysis.diagnostics)
+                for error in &analysis.diagnostics {
+                    let context = context.get(&error.id).unwrap();
+                    let span = format!("{}", context.span.start).bold().white();
+                    let id = format!("{}", error.id).purple();
+
+                    let err = format!("{}", error.kind).bold();
+                    let colored = error.severity.colored(&err);
+                    eprintln!("{} {}", colored, id);
+                    eprintln!("{:4}{:12}", "", span);
+                }
+
+                if !analysis.diagnostics.is_empty() {
+                    eprintln!("{} diagnostic(s)", analysis.diagnostics.len())
+                }
             }
         }
     }
 
     println!("All done in {:.2?}", start.elapsed());
-}
-
-fn print_diagnostics(context: &syntax::ContextMap, errors: &Vec<diagnostic::Diagnostic>) {
-    use diagnostic::DiagnosticSeverity::*;
-
-    match &errors[..] {
-        [] => {}
-        errors => {
-            for error in errors {
-                let context = context.get(&error.id).unwrap();
-                let span = format!("{}", context.span.start).bold().white();
-                let id = format!("{}", error.id).purple();
-
-                let err = format!("{}", error.kind).bold();
-                let colored = match error.severity {
-                    Critical => err.white().on_red(),
-                    Severe => err.red(),
-                    Moderate => err.yellow(),
-                    Light => err.white(),
-                };
-                eprintln!("{} {}", colored, id);
-                eprintln!("{:4}{:12}", "", span);
-            }
-            let message = match errors.len() {
-                1 => "1 error".to_string().white().bold(),
-                n => format!("{} errors", n).white().bold(),
-            };
-
-            eprintln!("{}", message);
-        }
-    }
-}
-
-fn print_syntax_errors(errors: &Vec<syntax::error::Error>) {
-    for error in errors {
-        let span = format!("{}", error.span.start).bold().white();
-        let err = format!("{}", error.kind).red().bold();
-        eprintln!("{:4}{:12}", span, err);
-    }
-    if !errors.is_empty() {
-        let message = match errors.len() {
-            1 => "1 error".to_string().red().bold(),
-            n => format!("{} errors", n).red().bold(),
-        };
-        eprintln!("{}", message);
-    }
 }
