@@ -1,0 +1,11 @@
+package A
+  part B
+    let x in boolean 
+    let y in boolean
+  part
+
+  requirement R1 is
+    (not B::x and B::y or false xor B::x) iff true implies B::y
+  requirement
+
+package

@@ -1,0 +1,11 @@
+# Rust Analyzer configuration
+# Ensure all targets (tests, benches, examples) are analyzed
+
+[cargo]
+# Analyze all targets including tests, benches, and examples
+allTargets = true
+buildScripts.enable = true
+
+[checkOnSave]
+# Check all targets when saving
+allTargets = true

@@ -1,0 +1,11 @@
+package A
+  part B
+    let x in {0,1,2} union {0,3,4} complement {256}
+    let y in {2,3,4} intersection {55,56,57} difference {123} 
+  part
+
+  requirement R1 is
+     B::x + B::y > 0 and B::x in {10,20,30} or ({ B::x } includes { 0, 1, 2 })
+  requirement
+
+package

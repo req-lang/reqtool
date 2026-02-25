@@ -1,0 +1,56 @@
+[package]
+name = "reqtool"
+version = "0.7.0"
+description = "Main compiler for the req language and tools associated"
+edition = "2024"
+
+[package.metadata]
+author = "Sami Dahoux <sami@bendou.space>"
+copyright = "© 2025. All rights reserved. Sami Dahoux"
+
+[dependencies]
+nlp = { path = "../nlp" }
+colored = "3.0.0"
+getopts = "0.2.23"
+itertools = "0.14.0"
+markdown = "1.0.0"
+pest = "2.7.9"
+pest_derive = "2.7.9"
+serde = "1.0.219"
+serde_derive = "1.0.219"
+unindent = "0.2.4"
+deunicode = "1.6.2"
+schemars = "1.0.4"
+ts-rs = { version = "12.0.1", optional = true }
+thiserror = "2.0.17"
+
+[features]
+ts = ["ts-rs"]
+
+[dev-dependencies]
+criterion = { version = "0.6", features = ["html_reports"] }
+
+[[bench]]
+name = "analysis"
+harness = false
+
+[[bench]]
+name = "parsing"
+harness = false
+
+[[bin]]
+name = "verify"
+path = "src/bin/verify.rs"
+
+[[bin]]
+name = "lint"
+path = "src/bin/lint.rs"
+
+[lib]
+name = "reqtool"
+path = "src/lib/mod.rs"
+crate-type = ["lib"]
+
+[profile.profiling]
+inherits = "release"
+debug = true

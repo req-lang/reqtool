@@ -1,0 +1,18 @@
+package A
+  part B
+    let x in real [W]
+    let y in integer [W] 
+  part
+
+  requirement R1 is
+    if (B::x in real) then 0 
+    end
+  requirement
+
+  requirement R2 is
+    if (B::y in real) then 0 
+    else 1
+    end
+  requirement
+
+package

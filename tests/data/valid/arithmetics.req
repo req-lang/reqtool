@@ -1,0 +1,11 @@
+package A
+  part B
+    let x in real [W]
+    let y in integer [W] 
+  part
+
+  requirement R1 is
+    (-B::x / B::y + 50! * +B::x) ^ 2 - (B::y ^ 2) % 2 > 0
+  requirement
+
+package

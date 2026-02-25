@@ -1,0 +1,13 @@
+package A
+  part B
+    let x in real [W]
+    let y in integer [W] 
+  part
+
+  requirement R1 is
+    forall s in real such that s > 10 
+      s < B::x
+    end
+  requirement
+
+package

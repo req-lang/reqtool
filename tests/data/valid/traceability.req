@@ -1,0 +1,17 @@
+package A
+  requirement R0 is
+  @@ very broad requirement @@
+  requirement
+
+  requirement R1 refines R0 is
+  @@
+  Some tests 1
+  @@
+  requirement
+
+  requirement R2 refines R1 refines R2 is
+  @@
+  Some tests 2
+  @@
+  requirement
+package

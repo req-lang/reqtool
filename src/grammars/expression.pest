@@ -1,0 +1,100 @@
+expr = { prefix* ~ primary ~ postfix* ~ (infix ~ prefix* ~ primary ~ postfix*)* }
+
+infix = _{ add | sub | mul | pow | rem | and | or | xor | ge | le | gt | lt | neq | eq | div | uni | inter | incl | implies | since | iff | ins | diff | comp }
+add   =  { "+" }
+sub   =  { "-" }
+mul   =  { "*" }
+div   =  { "/" }
+rem   =  { "%" }
+pow   =  { "^" }
+
+and     = { "and" }
+or      = { "or" }
+xor     = { "xor" }
+ins     = { "in" }
+implies = { "implies" }
+iff     = { "iff" }
+
+gt  = { ">" }
+lt  = { "<" }
+ge  = { ">=" }
+le  = { "<=" }
+neq = { "/=" }
+eq  = { "=" }
+
+uni   = { "union" }
+inter = { "intersection" }
+diff  = { "difference" }
+comp  = { "complement" }
+incl  = { "includes" }
+
+since = { "since" }
+
+prefix = _{ neg | plus | not | rise | fall | event | always | previous }
+neg    =  { "-" }
+plus   =  { "+" }
+
+not = { "not" }
+
+previous = { "previously" }
+rise     = { "rising" }
+fall     = { "falling" }
+event    = { "eventually" }
+always   = { "always" }
+
+postfix = _{ fac | call }
+fac     =  { "!" }
+call    =  { "(" ~ expr? ~ ("," ~ expr)* ~ ")" }
+
+primary = _{
+    (num | bool | undefined | set | branch | when | forall | exists | select | aggregation | ident | "(" ~ expr ~ ")")
+}
+
+branch =  { if ~ expr ~ then ~ expr ~ (else ~ expr)? ~ end }
+if     = _{ "if" }
+else   = _{ "else" }
+
+when      =  { whe ~ (((case ~ ",")+ ~ otherwise) | (case ~ ",")* ~ case) ~ end }
+whe       = _{ "when" }
+case      =  { expr ~ then ~ expr }
+otherwise =  { other ~ expr }
+
+forall =  { fora ~ label ~ in ~ expr ~ such_that? ~ expr ~ end }
+fora   = _{ "forall" }
+
+exists =  { exi ~ label ~ in ~ expr ~ such_that? ~ end }
+exi    = _{ "exists" }
+
+select    =  { sel ~ label ~ in ~ expr ~ such_that? ~ optimizer? ~ end }
+sel       = _{ "select" }
+optimizer =  { (maxi | mini) ~ expr }
+mini      =  { "minimize" }
+maxi      =  { "maximize" }
+
+such_that = _{ such ~ that ~ expr }
+
+aggregation =  { aggregator ~ (expr ~ ",")* ~ expr ~ end }
+aggregator  = _{ (all | any) }
+all         =  { "all" }
+any         =  { "any" }
+
+then = _{ "then" }
+end  = _{ "end" }
+such = _{ "such" }
+that = _{ "that" }
+in   = _{ "in" }
+
+set        =  { "{" ~ (expr ~ ",")* ~ expr ~ "}" }
+bool       =  { tru | fals }
+tru        =  { "true" }
+fals       =  { "false" }
+undefined  =  { "undefined" }
+other      = _{ "otherwise" }
+num        =  { real | infinity | int }
+real       = @{ int ~ ("." ~ ASCII_DIGIT*)? ~ (^"e" ~ int)? }
+int        =  { ASCII_DIGIT+ }
+infinity   =  { "infinity" }
+ident      = @{ (label ~ "::")* ~ label }
+label      = @{ word+ }
+word       = @{ (ASCII_ALPHA | "_") ~ (ASCII_ALPHA | ASCII_DIGIT | "_")* }
+WHITESPACE = _{ " " | "\t" | NEWLINE }

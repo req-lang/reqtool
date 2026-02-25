@@ -1,0 +1,49 @@
+package =  { meta ~ pkg ~ label ~ (part | requirement | package | import)* ~ pkg }
+pkg     = _{ "package" }
+
+part =  { meta ~ prt ~ label ~ (part | requirement | attribute | import)* ~ prt }
+prt  = _{ "part" }
+
+attribute =  { meta ~ let ~ label ~ in ~ domain ~ (su ~ unit ~ eu)? }
+let       = _{ "let" }
+su        = _{ "[" }
+eu        = _{ "]" }
+domain    = _{ expr }
+unit      =  { (!(eu) ~ ANY)+ }
+
+import =  { imp ~ ident }
+imp    = _{ "import" }
+
+requirement =  { meta ~ req ~ label ~ traceability? ~ is ~ inner ~ req }
+req         = _{ "requirement" }
+
+inner = _{ comment }
+
+traceability =  { trk ~ ident }
+trk          = _{ (refines | specializes | derives) }
+refines      =  { "refines" }
+specializes  =  { "specializes" }
+derives      =  { "derives" }
+
+expr = @{ (!(pkg | prt | let | su) ~ (ANY))* }
+
+keywords = {
+    (req | is | in | prt | pkg | refines | specializes | derives | imp)
+}
+
+is = _{ "is" }
+in = _{ "in" }
+
+meta = { (comment)? ~ (tag)* }
+
+comment =  { "@@" ~ text ~ "@@" }
+text    = @{ (!("@@") ~ ANY)* }
+
+tag =  { tgk ~ tgv ~ "#" }
+tgk = @{ "#" ~ label }
+tgv = @{ (!(NEWLINE | "#") ~ (ANY))* }
+
+ident      = @{ (label ~ "::")* ~ label }
+label      = @{ !(keywords ~ !word) ~ word+ }
+word       = @{ (ASCII_ALPHA | "_") ~ (ASCII_ALPHA | ASCII_DIGIT | "_")* }
+WHITESPACE = _{ " " | "\t" | NEWLINE }

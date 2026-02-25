@@ -1,0 +1,10 @@
+/target
+*.log
+*.json.gz
+*.tex
+*.fls
+*.out
+*.toc
+*.aux
+*.pdf
+*.fdb_latexmk

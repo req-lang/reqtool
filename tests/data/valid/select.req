@@ -1,0 +1,28 @@
+package A
+  part B
+    let x in real [W]
+    let y in integer [W] 
+  part
+
+  requirement R1 is
+    select s in real such that s > 10
+      maximize  1 / s 
+    end
+  requirement
+
+  requirement R2 is
+    select s in real such that s > 10
+    end
+  requirement
+
+  requirement R3 is
+    select s in real
+    end
+  requirement
+
+  requirement R4 is
+    select s in real
+      maximize s ^ 2
+    end
+  requirement
+package

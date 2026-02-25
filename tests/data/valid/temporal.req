@@ -1,0 +1,11 @@
+package A
+  part B
+    let x in boolean
+    let y in boolean
+  part
+
+  requirement R1 is
+    eventually B::x or (rising B::y and always (falling B::x since B::y) or previously B::x)
+  requirement
+
+package

@@ -1,0 +1,33 @@
+package A
+  part B
+    let x in real [W]
+    let y in integer [W] 
+  part
+
+  requirement R1 is
+    when B::x > 0 then B::y
+    end
+  requirement
+
+  requirement R2 is
+    when 
+      B::x > 0 then B::y,
+      B::y > 0 then B::x
+    end
+  requirement
+
+  requirement R3 is
+    when 
+      B::x > 0 then B::y,
+      otherwise B::x
+    end
+  requirement
+
+  requirement R4 is
+    when 
+      B::x > 0 then B::y,
+      B::y > 0 then B::y,
+      otherwise B::x
+    end
+  requirement
+package

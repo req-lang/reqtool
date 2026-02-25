@@ -1,0 +1,6 @@
+{
+  "cSpell.words": ["fals", "reqtool"],
+  "rust-analyzer.cargo.buildScripts.enable": true,
+  "rust-analyzer.checkOnSave.allTargets": true,
+  "rust-analyzer.cargo.allTargets": true
+}
