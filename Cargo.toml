@@ -1,12 +1,12 @@
 [package]
 name = "reqtool"
-version = "0.7.0"
+version = "0.7.1"
 description = "Main compiler for the req language and tools associated"
 edition = "2024"
 
 [package.metadata]
 author = "Sami Dahoux <sami@bendou.space>"
-copyright = "© 2025. All rights reserved. Sami Dahoux"
+copyright = "© 2025-2026. All rights reserved. Sami Dahoux"
 
 [dependencies]
 colored = "3.0.0"
